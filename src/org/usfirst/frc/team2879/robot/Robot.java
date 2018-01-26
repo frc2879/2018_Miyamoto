@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2879.robot.commands.DriveMecanumStick;
+import org.usfirst.frc.team2879.robot.subsystems.CubeIntakeHigh;
 import org.usfirst.frc.team2879.robot.subsystems.CubeIntakeLow;
 import org.usfirst.frc.team2879.robot.subsystems.DriveTrain;
 
@@ -18,10 +19,12 @@ import org.usfirst.frc.team2879.robot.subsystems.DriveTrain;
  */
 public class Robot extends TimedRobot {
 	public static final DriveTrain drivetrain
-			= new DriveTrain();
+		= new DriveTrain();
 	public static OI oi;
-	public static final CubeIntakeLow cubeIntake
-			= new CubeIntakeLow();
+	public static final CubeIntakeLow cubeIntakeLow
+		= new CubeIntakeLow();
+	public static final CubeIntakeHigh cubeIntakeHigh
+		= new CubeIntakeHigh();
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();

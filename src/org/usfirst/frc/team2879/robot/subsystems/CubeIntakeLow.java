@@ -1,7 +1,7 @@
 package org.usfirst.frc.team2879.robot.subsystems;
 
 import org.usfirst.frc.team2879.robot.RobotMap;
-import org.usfirst.frc.team2879.robot.commands.SuckInCube;
+import org.usfirst.frc.team2879.robot.commands.ConstantIntake;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -15,22 +15,12 @@ public class CubeIntakeLow extends Subsystem {
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new SuckInCube(.1));
+    	setDefaultCommand(new ConstantIntake(0.1,false));
     }
     
-    public void succ(double speed) {
+    public void go (double speed) {
     	left.set(speed);
     	right.set(-speed);
-    }
-    
-    public void ssspit(double speed) {
-    	left.set(-speed);
-    	right.set(speed);
-    }
-    
-    public void stap() {
-    	left.set(0);
-    	right.set(0);
     }
 }
 

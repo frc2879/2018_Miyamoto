@@ -1,7 +1,6 @@
 package org.usfirst.frc.team2879.robot;
 
-import org.usfirst.frc.team2879.robot.commands.SuckInCube;
-
+import org.usfirst.frc.team2879.robot.commands.ConstantIntake;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -57,7 +56,7 @@ public class OI {
 		return stick.getTwist()*stick.getTwist();
 	}
 	public void Init() {
-		new JoystickButton(stick, 6).whileHeld(new SuckInCube(.5));
+		new JoystickButton(stick, 6).whileHeld(new ConstantIntake(.5,false));
 	}
 		
 }

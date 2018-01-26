@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2879.robot.commands;
 
+import org.usfirst.frc.team2879.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -7,9 +9,19 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ConstantIntake extends Command {
 
-    public ConstantIntake() {
+    double speed;
+	boolean high;
+
+	public ConstantIntake(double speed, boolean high) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	this.speed=speed;
+   	this.high=high;
+   	if(high) {
+  		requires(Robot.cubeIntakeHigh);
+   	} else {
+   		requires(Robot.cubeIntakeLow);
+   	}
     }
 
     // Called just before this Command runs the first time
@@ -18,6 +30,11 @@ public class ConstantIntake extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(high) {
+    		Robot.cubeIntakeHigh.go(speed);
+    	}else {
+    		Robot.cubeIntakeLow.go(speed);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
