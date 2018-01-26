@@ -27,5 +27,8 @@ public class RobotMap {
 	
 	public static int joystickport = 0;
 
-
+	public static int topIntakeLeft = 2;
+	public static int topIntakeright = 3;
+	public static int bottomIntakeright = 1;
+	public static int bottomIntakeleft = 0;
 }

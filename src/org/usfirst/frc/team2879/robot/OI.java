@@ -1,6 +1,9 @@
 package org.usfirst.frc.team2879.robot;
 
+import org.usfirst.frc.team2879.robot.commands.SuckInCube;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -36,10 +39,25 @@ public class OI {
 	// button.whenReleased(new DriveMecanumStick());
 	
 	Joystick stick = new Joystick(RobotMap.joystickport);
-	
+
 	
 	public Joystick GetJoystick() {
 		return stick;
 	}
 	
+	public double getStickX() {
+		return stick.getX()*stick.getX();
+	}
+	
+	public double getStickY() {
+		return stick.getY()*stick.getY();
+	}
+	
+	public double getStickTwist() {
+		return stick.getTwist()*stick.getTwist();
+	}
+	public void Init() {
+		new JoystickButton(stick, 6).whileHeld(new SuckInCube(.5));
+	}
+		
 }

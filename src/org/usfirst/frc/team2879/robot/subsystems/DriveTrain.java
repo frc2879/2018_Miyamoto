@@ -1,11 +1,15 @@
 
 package org.usfirst.frc.team2879.robot.subsystems;
 
+import org.usfirst.frc.team2879.robot.Robot;
 import org.usfirst.frc.team2879.robot.RobotMap;
 import org.usfirst.frc.team2879.robot.commands.DriveMecanumStick;
-
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -17,26 +21,42 @@ public class DriveTrain extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	
-	 private WPI_TalonSRX[] talons;
-	 private MecanumDrive drivetrain;
+	private WPI_TalonSRX[] talons;
+	private MecanumDrive drivetrain;
+	private AHRS navX;
+
 	
 	public DriveTrain() {
         super("DriveTrain");
         initTalonsConfig();
-
+        initNavX();
     }
 	
-	public void initTalonsConfig() {
+	public void initNavX() {
+		//make sure navx is attached to the rio via spi
+		try {setNavX(new AHRS(SPI.Port.kMXP)); 
+	      } catch (RuntimeException ex ) {
+	          DriverStation.reportError("ya dun goofed: no navx found :  " + ex.getMessage(), true);
+	      }
+	}
+	
+ 	public void initTalonsConfig() {
 		talons= new WPI_TalonSRX[] {
                 new WPI_TalonSRX(RobotMap.frontleftmotor),
                 new WPI_TalonSRX(RobotMap.rearleftmotor),
                 new WPI_TalonSRX(RobotMap.frontrightmotor),
                 new WPI_TalonSRX(RobotMap.rearrightmotor)
-        };
+		};
+                
+        for (WPI_TalonSRX t: talons) {
+        	t.setNeutralMode(NeutralMode.Coast);
+        	t.setInverted(true);
+        }
+      
 		
         drivetrain = new MecanumDrive(talons[0], talons[1], talons[2], talons[3]);
+        drivetrain.setSafetyEnabled(false);
 	}
-	
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
@@ -44,10 +64,36 @@ public class DriveTrain extends Subsystem {
 		setDefaultCommand(new DriveMecanumStick());
 	}
 	
-	public void drive(double x, double y, double rotation) {
+ 	public void drive(double x, double y, double rotation) {
         drivetrain.driveCartesian( x, y, rotation,0.0);
 	}
+	
 	public void drive(Joystick joy) {
-        drive(joy.getX(), joy.getY(),joy.getTwist());
+        drive(Robot.oi.getStickX(), Robot.oi.getStickY(),Robot.oi.getStickTwist());
 	}
+
+	
+	public void setMotorSpeeds(double xIn, double yIn, double rotation, double driveScale, boolean fieldCentric) {
+		double x;
+		double y;
+				
+		x = xIn;
+		y = yIn;
+		
+		talons[0].set((x + y + rotation));
+		talons[2].set(-(-x + y - rotation));
+		talons[1].set((-x + y + rotation));
+		talons[3].set(-(x + y - rotation));
+	}
+	
+	public AHRS getNavX() {
+		return navX;
+	}
+
+	
+	public void setNavX(AHRS navX) {
+		this.navX = navX;
+	}
+
+	
 }
