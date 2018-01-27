@@ -1,6 +1,8 @@
 package org.usfirst.frc.team2879.robot;
 
 import org.usfirst.frc.team2879.robot.commands.ConstantIntake;
+import org.usfirst.frc.team2879.robot.commands.Strafe;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -37,8 +39,8 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new DriveMecanumStick());
 	
-	Joystick stick = new Joystick(RobotMap.joystickport);
-
+	private Joystick stick;
+	private JoystickPOVTrigger pov;
 	
 	public Joystick GetJoystick() {
 		return stick;
@@ -55,8 +57,14 @@ public class OI {
 	public double getStickTwist() {
 		return stick.getTwist()*stick.getTwist();
 	}
-	public void Init() {
+	public OI() {
+		stick = new Joystick(RobotMap.joystickport);
+		pov = new JoystickPOVTrigger(stick);
+		
 		new JoystickButton(stick, 6).whileHeld(new ConstantIntake(.5,false));
+		
+		pov.whileActive(new Strafe(.25,stick.getPOV()));
+		
 	}
 		
 }
