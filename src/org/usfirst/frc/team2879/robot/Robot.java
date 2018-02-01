@@ -9,6 +9,7 @@ import org.usfirst.frc.team2879.robot.commands.DriveMecanumStick;
 import org.usfirst.frc.team2879.robot.subsystems.CubeIntakeHigh;
 import org.usfirst.frc.team2879.robot.subsystems.CubeIntakeLow;
 import org.usfirst.frc.team2879.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team2879.robot.subsystems.Liftty;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,6 +26,8 @@ public class Robot extends TimedRobot {
 		= new CubeIntakeLow();
 	public static final CubeIntakeHigh cubeIntakeHigh
 		= new CubeIntakeHigh();
+	public static final Liftty lift
+	= new Liftty();
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -36,7 +39,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		chooser.addDefault("Default Auto", new DriveMecanumStick());
+		chooser.addDefault("Default Auto", new DriveMecanumStick(1));
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
