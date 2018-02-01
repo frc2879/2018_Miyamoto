@@ -7,11 +7,12 @@ import org.usfirst.frc.team2879.robot.Robot;
  * An example command.  You can replace me with your own command.
  */
 public class DriveMecanumStick extends Command {
+	private double speed;
 	
-	
-	public DriveMecanumStick() {
+	public DriveMecanumStick(double speed) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.drivetrain);
+		this.speed=speed;
 	}
 
 	// Called just before this Command runs the first time
@@ -23,7 +24,7 @@ public class DriveMecanumStick extends Command {
 	@Override
 	protected void execute() {
         //Robot.drivetrain.drive(0,.1,0);
-		Robot.drivetrain.drive(Robot.oi.GetJoystick());
+		Robot.drivetrain.drive(Robot.oi.GetJoystick(),speed);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

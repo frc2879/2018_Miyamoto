@@ -1,7 +1,9 @@
 package org.usfirst.frc.team2879.robot;
 
 import org.usfirst.frc.team2879.robot.commands.ConstantIntake;
+import org.usfirst.frc.team2879.robot.commands.DriveMecanumStick;
 import org.usfirst.frc.team2879.robot.commands.Strafe;
+import org.usfirst.frc.team2879.robot.commands.lift;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -47,23 +49,63 @@ public class OI {
 	}
 	
 	public double getStickX() {
-		return stick.getX()*stick.getX();
+		double xDed = .05;
+		double in = stick.getX();
+		double x = in*in;
+		if (x <= xDed) {
+			x=0;
+		}else {
+			x = (x-xDed)/(1-xDed);
+		}
+		if (in<0) {
+			x=-x;
+		}
+		return x;
 	}
 	
 	public double getStickY() {
-		return stick.getY()*stick.getY();
+		double xDed = .05;
+		double in = stick.getY();
+		double x = in*in;
+		if (x <= xDed) {
+			x=0;
+		}else {
+			x = (x-xDed)/(1-xDed);
+		}
+		if (in<0) {
+			x=-x;
+		}
+		return x;
 	}
 	
 	public double getStickTwist() {
-		return stick.getTwist()*stick.getTwist();
+		double xDed = .05;
+		double in = stick.getTwist();
+		double x = in*in;
+		if (x <= xDed) {
+			x=0;
+		}else {
+			x = (x-xDed)/(1-xDed);
+		}
+		if (in<0) {
+			x=-x;
+		}
+		return x;
 	}
+	
 	public OI() {
 		stick = new Joystick(RobotMap.joystickport);
 		pov = new JoystickPOVTrigger(stick);
 		
 		new JoystickButton(stick, 6).whileHeld(new ConstantIntake(.5,false));
+		new JoystickButton(stick, 5).whileHeld(new ConstantIntake(.5,true));
+		new JoystickButton(stick, 4).whileHeld(new ConstantIntake(-.5,false));
+		new JoystickButton(stick, 3).whileHeld(new ConstantIntake(-.5,true));
+		new JoystickButton(stick, 1).whileHeld(new DriveMecanumStick(0.5));
+		new JoystickButton(stick, 11).whileHeld(new lift(0.5));
+		new JoystickButton(stick, 12).whileHeld(new lift(-0.5));
 		
-		pov.whileActive(new Strafe(.25,stick.getPOV()));
+		pov.whileActive(new Strafe(.75,.25,.5));
 		
 	}
 		
