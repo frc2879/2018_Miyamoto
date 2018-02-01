@@ -2,8 +2,9 @@ package PID;
 
 //code heavily influenced by Techfire's code, frc 225
 
+//sets the PID CLass
 public class PID {
-
+	//initiallizes the variables for the PID LOOP
 	public double kP;
 	double kI;
 	double kD;
@@ -16,7 +17,7 @@ public class PID {
     double previousValue = 0;
     boolean targetChangedBeforeCalculate = true;
     double maxOutput=1, minOutput=-1;
-    
+    //allows diffrent P,I, and D's for diffent classes
     public PID(double kP, double kI, double kD)
     {
         this.kP = kP;
@@ -28,6 +29,7 @@ public class PID {
      * @param max maximum output
      * @param min minimum output 
      */
+    //sets the limits for safe outputs 
     public void setOutputConstraints(double max, double min)
     {
         maxOutput = max;
