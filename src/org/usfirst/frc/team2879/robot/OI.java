@@ -1,6 +1,10 @@
 package org.usfirst.frc.team2879.robot;
 
 import org.usfirst.frc.team2879.robot.commands.ConstantIntake;
+import org.usfirst.frc.team2879.robot.commands.DriveMecanumStick;
+import org.usfirst.frc.team2879.robot.commands.Strafe;
+import org.usfirst.frc.team2879.robot.commands.lift;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -37,26 +41,82 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new DriveMecanumStick());
 	
-	Joystick stick = new Joystick(RobotMap.joystickport);
-
+	private Joystick stick;
+	private JoystickPOVTrigger pov;
 	
 	public Joystick GetJoystick() {
+		//enables the joystick for getting the things
 		return stick;
+		//gets the joystick things 
 	}
 	
 	public double getStickX() {
-		return stick.getX()*stick.getX();
+		//sets the the x axis dead zone
+		double xDed = .05;
+		//gets the x axis from the joy stick-a-ma-thingy
+		double in = stick.getX();
+		//square the inputs for better response
+		double x = in*in;
+		//actually does the dead zone thing
+		if (x <= xDed) {
+			x=0;
+		}else {
+			//when outside deadzone actually do the motor thingy
+			x = (x-xDed)/(1-xDed);
+		}
+		//if the input was negitive amke it negitive again 
+		if (in<0) {
+			x=-x;
+		}
+		return x;
 	}
 	
+	//ALL THE SAME AS ABOVE
 	public double getStickY() {
-		return stick.getY()*stick.getY();
+		double xDed = .05;
+		double in = stick.getY();
+		double x = in*in;
+		if (x <= xDed) {
+			x=0;
+		}else {
+			x = (x-xDed)/(1-xDed);
+		}
+		if (in<0) {
+			x=-x;
+		}
+		return x;
 	}
 	
 	public double getStickTwist() {
-		return stick.getTwist()*stick.getTwist();
+		double xDed = .05;
+		double in = stick.getTwist();
+		double x = in*in;
+		if (x <= xDed) {
+			x=0;
+		}else {
+			x = (x-xDed)/(1-xDed);
+		}
+		if (in<0) {
+			x=-x;
+		}
+		return x;
 	}
-	public void Init() {
+	//END SAME AS ABOVE
+	
+	public OI() {
+		stick = new Joystick(RobotMap.joystickport);
+		pov = new JoystickPOVTrigger(stick);
+		//sets the commands for the buttons 
 		new JoystickButton(stick, 6).whileHeld(new ConstantIntake(.5,false));
+		new JoystickButton(stick, 5).whileHeld(new ConstantIntake(.5,true));
+		new JoystickButton(stick, 4).whileHeld(new ConstantIntake(-.5,false));
+		new JoystickButton(stick, 3).whileHeld(new ConstantIntake(-.5,true));
+		new JoystickButton(stick, 1).whileHeld(new DriveMecanumStick(0.5));
+		new JoystickButton(stick, 11).whileHeld(new lift(0.20));
+		new JoystickButton(stick, 12).whileHeld(new lift(-0.20));
+		
+		pov.whileActive(new Strafe(.75,.25,.5));
+		
 	}
 		
 }

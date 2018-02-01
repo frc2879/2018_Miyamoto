@@ -2,9 +2,12 @@ package PID;
 
 //code heavily influenced by Techfire's code, frc 225
 
+//sets the PID CLass
 public class PID {
-
-	double kP, kI, kD;
+	//initiallizes the variables for the PID LOOP
+	public double kP;
+	double kI;
+	double kD;
     double error;
     double target; 
     public double tolerance = 100;
@@ -14,14 +17,19 @@ public class PID {
     double previousValue = 0;
     boolean targetChangedBeforeCalculate = true;
     double maxOutput=1, minOutput=-1;
-    
+    //allows diffrent P,I, and D's for diffent classes
     public PID(double kP, double kI, double kD)
     {
         this.kP = kP;
         this.kI = kI;
         this.kD = kD; 
     }
-    
+    /**
+     * this sets the range of outputs of the pid loop
+     * @param max maximum output
+     * @param min minimum output 
+     */
+    //sets the limits for safe outputs 
     public void setOutputConstraints(double max, double min)
     {
         maxOutput = max;
@@ -49,8 +57,9 @@ public class PID {
         {
             loopsStable++;
         }
-        else
+        else {
             loopsStable = 0;
+        }
         return loopsStable > 3;
     }
     
@@ -71,8 +80,9 @@ public class PID {
     
     public double getError()
     {
-        if ( targetChangedBeforeCalculate )
+        if ( targetChangedBeforeCalculate ) {
             return Double.MAX_VALUE;
+        }
         return error;
     }
     
@@ -89,6 +99,7 @@ public class PID {
         }
         
         // P
+        //proportional part of the pid loop
         error = target-input;
         
         // I
@@ -100,32 +111,28 @@ public class PID {
             }else {
                 errSum += maxInc;
             }
-        }
-        
-        else if ( error <= - tolerance )
-        
-        
-        {
-            if ( errSum < 0 )
+        }else if ( error <= - tolerance ){
+            if ( errSum < 0 ) {
                 errSum = 0;
-            if ( errSum > -maxInc )
-                errSum += error;
-            else
+            }
+            if ( errSum > -maxInc ) {
+            	 errSum += error;
+            } else {
                 errSum -= maxInc;
-        }
-        else
+            }
+        }else {
             errSum = 0;
-        
+        }
         // D
         double velocity = input-previousValue;
         previousValue = input;
         
         double output = (kP*error)+(kI*errSum)-(kD*velocity);
         
-        if ( output > maxOutput )
-            output = maxOutput;
-        else if ( output < minOutput )
-            output = minOutput;
+        //if ( output > maxOutput )
+          //  output = maxOutput;
+        //else if ( output < minOutput )
+          //  output = minOutput;
         return output;
         
     }

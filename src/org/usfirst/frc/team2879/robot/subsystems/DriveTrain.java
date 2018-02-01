@@ -61,39 +61,37 @@ public class DriveTrain extends Subsystem {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		setDefaultCommand(new DriveMecanumStick());
+		setDefaultCommand(new DriveMecanumStick(1));
 	}
 	
  	public void drive(double x, double y, double rotation) {
-        drivetrain.driveCartesian( x, y, rotation,0.0);
+        drivetrain.driveCartesian( x, -y, rotation,0.0);
 	}
 	
-	public void drive(Joystick joy) {
-        drive(Robot.oi.getStickX(), Robot.oi.getStickY(),Robot.oi.getStickTwist());
+ 	public void drivePolar(double magnitude, double angle, double rotation) {
+        drivetrain.drivePolar( magnitude, angle, rotation);
+	}
+ 	
+	public void drive(Joystick joy,double speed) {
+        drive(speed*Robot.oi.getStickX(), speed*Robot.oi.getStickY(), speed*Robot.oi.getStickTwist());
 	}
 
-	
-	public void setMotorSpeeds(double xIn, double yIn, double rotation, double driveScale, boolean fieldCentric) {
-		double x;
-		double y;
-				
-		x = xIn;
-		y = yIn;
-		
-		talons[0].set((x + y + rotation));
-		talons[2].set(-(-x + y - rotation));
-		talons[1].set((-x + y + rotation));
-		talons[3].set(-(x + y - rotation));
-	}
-	
 	public AHRS getNavX() {
 		return navX;
 	}
-
 	
 	public void setNavX(AHRS navX) {
 		this.navX = navX;
 	}
 
-	
+	public void changeBrakeMode(boolean brake) {
+		
+		if (brake) {		
+		for (WPI_TalonSRX t: talons) {
+			t.setNeutralMode(NeutralMode.Brake);
+		}}else {
+			for (WPI_TalonSRX t: talons) {
+				t.setNeutralMode(NeutralMode.Coast);
+		}}
+	}
 }

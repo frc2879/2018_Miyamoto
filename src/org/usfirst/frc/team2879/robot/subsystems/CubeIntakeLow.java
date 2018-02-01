@@ -19,8 +19,8 @@ public class CubeIntakeLow extends Subsystem {
     }
     
     public void go (double speed) {
-    	left.set(speed);
-    	right.set(-speed);
+    	left.set(-speed);
+    	right.set(speed);
     }
 }
 
