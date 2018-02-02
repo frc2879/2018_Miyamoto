@@ -55,6 +55,7 @@ public class DriveTrain extends Subsystem {
       
 		
         drivetrain = new MecanumDrive(talons[0], talons[1], talons[2], talons[3]);
+        //we need this
         drivetrain.setSafetyEnabled(false);
 	}
 
@@ -83,8 +84,12 @@ public class DriveTrain extends Subsystem {
 	public void setNavX(AHRS navX) {
 		this.navX = navX;
 	}
-
-	public void changeBrakeMode(boolean brake) {
+	
+	/**
+	 * this will change the motors between brake mode and coast mode 
+	 * @param brake set true for brake mode, false for coast
+	 */
+	public void setBrakeMode(boolean brake) {
 		
 		if (brake) {		
 		for (WPI_TalonSRX t: talons) {

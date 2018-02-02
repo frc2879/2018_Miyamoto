@@ -9,7 +9,10 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class lift extends Command {
 	double speed;
-	
+	/**
+	 * this command makes the redline spin
+	 * @param speed the speed of the lift
+	 */
     public lift(double speed) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);

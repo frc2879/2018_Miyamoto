@@ -1,6 +1,7 @@
 package PID;
 
 //code heavily influenced by Techfire's code, frc 225
+//see https://github.com/FRCTeam225/Robot2015/blob/master/src/org/techfire/team225/robot/SimplePID.java
 
 //sets the PID CLass
 public class PID {
@@ -18,6 +19,15 @@ public class PID {
     boolean targetChangedBeforeCalculate = true;
     double maxOutput=1, minOutput=-1;
     //allows diffrent P,I, and D's for diffent classes
+   
+    /**
+     * the PID controller object
+     * most of the time, only P will be needed. 
+     * with uses that will persist over time like a go set distance with the drivetrain, adding I, D makes sense. 
+     * @param kP the gain on the proportional part
+     * @param kI the gain on the integral
+     * @param kD the gain on the derivative part
+     */
     public PID(double kP, double kI, double kD)
     {
         this.kP = kP;
@@ -129,10 +139,11 @@ public class PID {
         
         double output = (kP*error)+(kI*errSum)-(kD*velocity);
         
-        //if ( output > maxOutput )
-          //  output = maxOutput;
-        //else if ( output < minOutput )
-          //  output = minOutput;
+        if ( output > maxOutput ) {
+            output = maxOutput;
+        }else if ( output < minOutput ) {
+            output = minOutput;
+        }
         return output;
         
     }
