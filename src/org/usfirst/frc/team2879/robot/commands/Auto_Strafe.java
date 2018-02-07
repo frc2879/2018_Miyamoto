@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Auto_Strafe extends Command {
 	//creates the pid controllers, see PID class to understand what the arguments are
-	public PID rotation = new PID (.05,0,0);
-	public PID xPID = new PID (0,0,0);
+	public PID rotation = new PID (0,0,0);
+	public PID xPID = new PID (1,0,0);
 	public PID yPID = new PID (0,0,0);
 	double deltax,deltay,outX,outY,outRotate,xCurr,yCurr,angleCurr;
 	
 	/**
-	 * this drive the robot to a specific location on the field, then stops
+	 * this drives the robot to a specific location on the field, then stops
 	 * because of how the navX calculates displacement error compounds quickly
 	 * only use this for short movements (under 3 seconds)
 	 * @param deltax the change in x (horizontal, in meters) relative to the current orientation of the robot 
@@ -39,11 +39,13 @@ public class Auto_Strafe extends Command {
     	rotation.setTarget(Robot.drivetrain.getNavX().getAngle());
     	xPID.setTarget(deltax+Robot.drivetrain.getNavX().getDisplacementX());
     	yPID.setTarget(deltay+Robot.drivetrain.getNavX().getDisplacementY());
+    	
     	Robot.drivetrain.setBrakeMode(true);
     	
     	//the pid will stop if it is within 1 tenth of a meter for 60ms
-    	xPID.setOkError(.1);
-    	yPID.setOkError(.1);
+    	xPID.setOkError(.2);
+    	yPID.setOkError(.2);
+    	rotation.setOkError(5);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -68,6 +70,9 @@ public class Auto_Strafe extends Command {
     	SmartDashboard.putNumber("outX", outX);
     	SmartDashboard.putNumber("outY", outY);
     	SmartDashboard.putNumber("outRotate", outRotate);
+    	SmartDashboard.putNumber("x error", xPID.getError());
+    	SmartDashboard.putNumber("y error", yPID.getError());
+    	SmartDashboard.putNumber("angle error", rotation.getError());
     }
 
     // Make this return true when this Command no longer needs to run execute()

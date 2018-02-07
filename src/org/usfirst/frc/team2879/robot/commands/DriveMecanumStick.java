@@ -1,6 +1,8 @@
 package org.usfirst.frc.team2879.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc.team2879.robot.Robot;
 
 /**
@@ -25,6 +27,8 @@ public class DriveMecanumStick extends Command {
 	protected void execute() {
         //Robot.drivetrain.drive(0,.1,0);
 		Robot.drivetrain.drive(Robot.oi.GetJoystick(),speed);
+		SmartDashboard.putNumber("x value", Robot.drivetrain.getNavX().getDisplacementX());
+		SmartDashboard.putNumber("y value", Robot.drivetrain.getNavX().getDisplacementY());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

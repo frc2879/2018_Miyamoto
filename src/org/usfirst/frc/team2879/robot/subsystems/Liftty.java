@@ -28,5 +28,11 @@ public class Liftty extends Subsystem {
     public void set(double speed) {
     	redline.set(speed);
     }
+    
+    public double getDistance() {
+    	redline.getSensorCollection().getPulseWidthRiseToRiseUs();
+		return 0;
+    	
+    }
 }
 

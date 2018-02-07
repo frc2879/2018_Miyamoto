@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2879.robot;
 
+import org.usfirst.frc.team2879.robot.commands.Auto_Strafe;
 import org.usfirst.frc.team2879.robot.commands.ConstantIntake;
 import org.usfirst.frc.team2879.robot.commands.StickDriveWithPID;
 import org.usfirst.frc.team2879.robot.commands.Strafe;
@@ -88,7 +89,7 @@ public class OI {
 	}
 	
 	public double getStickTwist() {
-		double xDed = .05;
+		double xDed = .15;
 		double in = stick.getTwist();
 		double x = in*in;
 		if (x <= xDed) {
