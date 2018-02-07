@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2879.robot;
 
-import org.usfirst.frc.team2879.robot.commands.Auto_Strafe;
 import org.usfirst.frc.team2879.robot.commands.ConstantIntake;
 import org.usfirst.frc.team2879.robot.commands.StickDriveWithPID;
 import org.usfirst.frc.team2879.robot.commands.Strafe;

@@ -10,6 +10,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -24,6 +25,7 @@ public class DriveTrain extends Subsystem {
 	private WPI_TalonSRX[] talons;
 	private MecanumDrive drivetrain;
 	private AHRS navX;
+	private Encoder[] encoders;
 
 	
 	public DriveTrain() {
@@ -32,7 +34,7 @@ public class DriveTrain extends Subsystem {
         initNavX();
     }
 	
-	public void initNavX() {
+	private void initNavX() {
 		//make sure navx is attached to the rio via spi
 		try {setNavX(new AHRS(SPI.Port.kMXP)); 
 	      } catch (RuntimeException ex ) {
@@ -40,7 +42,7 @@ public class DriveTrain extends Subsystem {
 	      }
 	}
 	
- 	public void initTalonsConfig() {
+ 	private void initTalonsConfig() {
 		talons= new WPI_TalonSRX[] {
                 new WPI_TalonSRX(RobotMap.frontleftmotor),
                 new WPI_TalonSRX(RobotMap.rearleftmotor),
@@ -58,7 +60,53 @@ public class DriveTrain extends Subsystem {
         //we need this
         drivetrain.setSafetyEnabled(false);
 	}
-
+ 	
+ 	/**
+ 	 * this goes from the desired motion to the motor speeds.  
+ 	 * @param x the desired x translation
+ 	 * @param y th desired y translation
+ 	 * @param z the desired rotation
+ 	 * @return an array with the motor velocities in a range from 1 to -1 in the order fl, rl, fr, rr
+ 	 */
+ 	public double[] inverseKinematicsCalculate(double x, double y, double z) {
+ 		double[] outputs = {x+y+z,-x+y+z,x-y+z,-x-y+z};
+ 		double maxMagnitude = Math.abs(outputs[0]);
+ 		
+ 		//determine the max output magnitude.
+ 		for (int i = 1; i < 4; i++) {
+ 			double temp = Math.abs(outputs[i]);
+ 			if (maxMagnitude < temp) {
+ 		        maxMagnitude = temp;
+ 		    }
+ 		}
+ 		
+ 		//if the largest magnitude is too big, scale everything
+ 		if (maxMagnitude > 1.0) {
+ 			for (int i = 0; i < outputs.length; i++) {
+ 				outputs[i] = outputs[i] / maxMagnitude;
+ 			}
+ 		} 		
+ 		
+ 		return outputs;
+ 	}
+ 	
+ 	/**
+ 	 * this method takes motor rotation and turns it into robot motion
+ 	 * @param fl front left motor rotation
+ 	 * @param rl
+ 	 * @param fr
+ 	 * @param rr
+ 	 * @return returns an array of the motion (x,y, rotation)
+ 	 */
+ 	public double[] forwardKinematicCalculate(double fl, double rl,double fr,double rr) {
+		double[] outputs = {fl-rl+fr-rr, fl+rl-fr-rr, fl+rl+fr+rr}; 
+		//scale by one quarter to make it be an inverse of inverse kinematics;
+		outputs[0] /= 4;
+		outputs[1] /= 4;	
+		outputs[2] /= 4;
+		return outputs; 	
+ 	}
+ 	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
