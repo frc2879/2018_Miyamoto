@@ -23,8 +23,7 @@ public class RobotMap {
 	public static int rearleftmotor = 2;
 	public static int frontrightmotor = 4;
 	public static int rearrightmotor = 8;
-	
-	
+		
 	public static int joystickport = 0;
 
 	public static int lift = 6;
@@ -32,4 +31,11 @@ public class RobotMap {
 	public static int topIntakeright = 2;
 	public static int bottomIntakeright = 0;
 	public static int bottomIntakeleft = 1;
+
+	//constants for the encoders
+	public static double distancePerPulse=1;
+	public static double minRate=1;
+	public static double maxRate=1;
+
+
 }

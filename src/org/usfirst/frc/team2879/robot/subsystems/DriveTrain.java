@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
@@ -26,7 +27,6 @@ public class DriveTrain extends Subsystem {
 	private MecanumDrive drivetrain;
 	private AHRS navX;
 	private Encoder[] encoders;
-
 	
 	public DriveTrain() {
         super("DriveTrain");
@@ -49,12 +49,25 @@ public class DriveTrain extends Subsystem {
                 new WPI_TalonSRX(RobotMap.frontrightmotor),
                 new WPI_TalonSRX(RobotMap.rearrightmotor)
 		};
+		
+		encoders = new Encoder[] {
+			new Encoder(0,1,false,CounterBase.EncodingType.k4X),
+			new Encoder(0,1,false,CounterBase.EncodingType.k4X),
+			new Encoder(0,1,false,CounterBase.EncodingType.k4X),
+			new Encoder(0,1,false,CounterBase.EncodingType.k4X)
+		};
                 
         for (WPI_TalonSRX t: talons) {
         	t.setNeutralMode(NeutralMode.Coast);
-        	t.setInverted(true);
+        	t.setInverted(true);  	
         }
-      
+        
+        for (Encoder t:encoders) {
+        	t.setMaxPeriod(RobotMap.maxRate);
+        	t.setMinRate(RobotMap.minRate);
+        	t.setDistancePerPulse(RobotMap.distancePerPulse);
+        	t.setSamplesToAverage(10);
+        }
 		
         drivetrain = new MecanumDrive(talons[0], talons[1], talons[2], talons[3]);
         //we need this
