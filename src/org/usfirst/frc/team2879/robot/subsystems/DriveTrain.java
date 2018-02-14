@@ -9,9 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -27,7 +25,6 @@ public class DriveTrain extends Subsystem {
 	private WPI_TalonSRX[] talons;
 	private MecanumDrive drivetrain;
 	private AHRS navX;
-	private Encoder[] encoders;
 
 	public DriveTrain() {
 		super("DriveTrain");
@@ -49,21 +46,9 @@ public class DriveTrain extends Subsystem {
 				new WPI_TalonSRX(RobotMap.rearleftmotor), new WPI_TalonSRX(RobotMap.frontrightmotor),
 				new WPI_TalonSRX(RobotMap.rearrightmotor) };
 
-		encoders = new Encoder[] { new Encoder(0, 1, false, CounterBase.EncodingType.k4X),
-				new Encoder(0, 1, false, CounterBase.EncodingType.k4X),
-				new Encoder(0, 1, false, CounterBase.EncodingType.k4X),
-				new Encoder(0, 1, false, CounterBase.EncodingType.k4X) };
-
 		for (WPI_TalonSRX t : talons) {
 			t.setNeutralMode(NeutralMode.Coast);
 			t.setInverted(true);
-		}
-
-		for (Encoder t : encoders) {
-			t.setMaxPeriod(RobotMap.maxRate);
-			t.setMinRate(RobotMap.minRate);
-			t.setDistancePerPulse(RobotMap.distancePerPulse);
-			t.setSamplesToAverage(10);
 		}
 
 		drivetrain = new MecanumDrive(talons[0], talons[1], talons[2], talons[3]);
@@ -72,21 +57,12 @@ public class DriveTrain extends Subsystem {
 	}
 
 	/**
-	 * returns the encoders
-	 * 
-	 * @return order is fl, rl, fr, rr
-	 */
-	public Encoder[] getEncoders() {
-		return encoders;
-	}
-
-	/**
 	 * this goes from the desired motion to the motor speeds.
 	 * 
 	 * @param x
 	 *            the desired x translation
 	 * @param y
-	 *            th desired y translation
+	 *            the desired y translation
 	 * @param z
 	 *            the desired rotation
 	 * @return an array with the motor velocities in a range from 1 to -1 in the

@@ -28,7 +28,7 @@ public class RobotMap {
 
 	public static int lift = 6;
 	public static int topIntakeLeft = 3;
-	public static int topIntakeright = 2;
+	public static int topIntakeright = 5;
 	public static int bottomIntakeright = 0;
 	public static int bottomIntakeleft = 1;
 
