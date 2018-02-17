@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2879.robot;
 
+import org.usfirst.frc.team2879.robot.commands.AutoForward;
 import org.usfirst.frc.team2879.robot.commands.ConstantIntake;
 import org.usfirst.frc.team2879.robot.commands.StickDriveWithPID;
 import org.usfirst.frc.team2879.robot.commands.Strafe;
@@ -88,7 +89,7 @@ public class OI {
 	}
 	
 	public double getStickTwist() {
-		double xDed = .05;
+		double xDed = .15;
 		double in = stick.getTwist();
 		double x = in*in;
 		if (x <= xDed) {
@@ -114,8 +115,9 @@ public class OI {
 		new JoystickButton(stick, 1).whileHeld(new StickDriveWithPID());
 		
 		// this is the speed of the lift. negative retracts, positive extends.
-		new JoystickButton(stick, 11).whileHeld(new lift(0.20));
-		new JoystickButton(stick, 12).whileHeld(new lift(-0.20));
+		new JoystickButton(stick, 11).whileHeld(new lift(0.50));
+		new JoystickButton(stick, 12).whileHeld(new lift(-0.75));
+		new JoystickButton(stick,7).whenPressed(new AutoForward(0,.4,1));
 		
 		// the arguments are the speed in the different directions. (sidways speed, forward speed, diagonal speed)
 		pov.whileActive(new Strafe(.75,.25,.5));

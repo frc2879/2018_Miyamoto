@@ -11,6 +11,8 @@ import org.usfirst.frc.team2879.robot.subsystems.CubeIntakeLow;
 import org.usfirst.frc.team2879.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2879.robot.subsystems.Liftty;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -57,6 +59,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		drivetrain.getTalons()[3].getSelectedSensorVelocity(0);
 	}
 
 	/**
