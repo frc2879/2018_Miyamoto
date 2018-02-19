@@ -11,8 +11,6 @@ import org.usfirst.frc.team2879.robot.subsystems.CubeIntakeLow;
 import org.usfirst.frc.team2879.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2879.robot.subsystems.Liftty;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -59,7 +57,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		drivetrain.getTalons()[3].getSelectedSensorVelocity(0);
+		SmartDashboard.putNumber("encodervelocity", drivetrain.getTalons()[3].getSelectedSensorVelocity(0));
 	}
 
 	/**
@@ -115,6 +113,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("encodervelocity0", drivetrain.getTalons()[0].getSensorCollection().getPulseWidthVelocity());
+		SmartDashboard.putNumber("encodervelocity1", drivetrain.getTalons()[1].getSensorCollection().getPulseWidthVelocity());
+		SmartDashboard.putNumber("encodervelocity2", drivetrain.getTalons()[2].getSensorCollection().getPulseWidthVelocity());
+		SmartDashboard.putNumber("encodervelocity3", drivetrain.getTalons()[3].getSensorCollection().getPulseWidthVelocity());
 	}
 
 	/**

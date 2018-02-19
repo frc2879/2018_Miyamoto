@@ -24,13 +24,14 @@ public class DriveTrain extends Subsystem {
 	// here. Call these from Commands.
 
 	private WPI_TalonSRX[] talons;
+
 	public WPI_TalonSRX[] getTalons() {
 		return talons;
 	}
 
 	private MecanumDrive drivetrain;
 	private AHRS navX;
-	double encoderedgesperrev=6;
+	double encoderedgesperrev = 6;
 
 	public DriveTrain() {
 		super("DriveTrain");
@@ -55,11 +56,11 @@ public class DriveTrain extends Subsystem {
 		for (WPI_TalonSRX t : talons) {
 			t.setNeutralMode(NeutralMode.Coast);
 			t.setInverted(true);
-			t.configSelectedFeedbackSensor(FeedbackDevice.Tachometer, 0, 0);
+			t.configSelectedFeedbackSensor(FeedbackDevice.Tachometer, 0, 100);
 			t.enableVoltageCompensation(true);
 			t.configClosedloopRamp(1, 100);
-			t.configSetParameter(430, encoderedgesperrev, 0, 0, 0);
-			t.configSetParameter(431, 0, 0, 0, 0);
+			t.configSetParameter(430, encoderedgesperrev, 0, 0, 100);
+			t.configSetParameter(431, 1, 0, 0, 100);
 		}
 
 		drivetrain = new MecanumDrive(talons[0], talons[1], talons[2], talons[3]);

@@ -6,15 +6,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2879.robot.Robot;
 
 /**
- * An example command.  You can replace me with your own command.
+ * An example command. You can replace me with your own command.
  */
 public class DriveMecanumStick extends Command {
 	private double speed;
-	
+
 	public DriveMecanumStick(double speed) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.drivetrain);
-		this.speed=speed;
+		this.speed = speed;
 	}
 
 	// Called just before this Command runs the first time
@@ -25,8 +25,8 @@ public class DriveMecanumStick extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-        //Robot.drivetrain.drive(0,.1,0);
-		Robot.drivetrain.drive(Robot.oi.GetJoystick(),speed);
+		// Robot.drivetrain.drive(0,.1,0);
+		Robot.drivetrain.drive(Robot.oi.GetJoystick(), speed);
 		SmartDashboard.putNumber("x value", Robot.drivetrain.getNavX().getDisplacementX());
 		SmartDashboard.putNumber("y value", Robot.drivetrain.getNavX().getDisplacementY());
 	}
@@ -40,7 +40,7 @@ public class DriveMecanumStick extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-        Robot.drivetrain.drive(0,0,0);
+		Robot.drivetrain.drive(0, 0, 0);
 	}
 
 	// Called when another command which requires one or more of the same

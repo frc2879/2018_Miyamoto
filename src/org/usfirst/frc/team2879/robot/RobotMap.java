@@ -36,6 +36,9 @@ public class RobotMap {
 	public static double distancePerPulse=1;
 	public static double minRate=1;
 	public static double maxRate=1;
+	
+	//other constants
+	public static double neutralspeed;
 
 
 }
