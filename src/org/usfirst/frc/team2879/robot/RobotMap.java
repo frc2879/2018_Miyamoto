@@ -19,16 +19,16 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
 	
 	// motor ports
-	public static int frontleftmotor = 9;
-	public static int rearleftmotor = 2;
-	public static int frontrightmotor = 4;
-	public static int rearrightmotor = 8;
+	public static int frontleftmotor = 0;
+	public static int rearleftmotor = 1;
+	public static int frontrightmotor = 2;
+	public static int rearrightmotor = 3;
 		
 	public static int joystickport = 0;
 
 	public static int lift = 6;
 	public static int topIntakeLeft = 3;
-	public static int topIntakeright = 5;
+	public static int topIntakeright = 2;
 	public static int bottomIntakeright = 0;
 	public static int bottomIntakeleft = 1;
 

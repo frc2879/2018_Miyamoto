@@ -5,6 +5,7 @@ import org.usfirst.frc.team2879.robot.Robot;
 import org.usfirst.frc.team2879.robot.RobotMap;
 import org.usfirst.frc.team2879.robot.commands.DriveMecanumStick;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -58,9 +59,10 @@ public class DriveTrain extends Subsystem {
 			t.setInverted(true);
 			t.configSelectedFeedbackSensor(FeedbackDevice.Tachometer, 0, 100);
 			t.enableVoltageCompensation(true);
-			t.configClosedloopRamp(1, 100);
-			t.configSetParameter(430, encoderedgesperrev, 0, 0, 100);
-			t.configSetParameter(431, 1, 0, 0, 100);
+			t.configClosedloopRamp(1, 10);
+			t.configSetParameter(430, encoderedgesperrev, 0, 0, 0);
+			t.configSetParameter(431, 2, 0, 0, 0);
+			t.set(ControlMode.Velocity, 0);
 		}
 
 		drivetrain = new MecanumDrive(talons[0], talons[1], talons[2], talons[3]);

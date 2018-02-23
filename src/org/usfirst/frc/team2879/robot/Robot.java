@@ -57,7 +57,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("encodervelocity", drivetrain.getTalons()[3].getSelectedSensorVelocity(0));
 	}
 
 	/**
@@ -113,10 +112,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("encodervelocity0", drivetrain.getTalons()[0].getSensorCollection().getPulseWidthVelocity());
-		SmartDashboard.putNumber("encodervelocity1", drivetrain.getTalons()[1].getSensorCollection().getPulseWidthVelocity());
-		SmartDashboard.putNumber("encodervelocity2", drivetrain.getTalons()[2].getSensorCollection().getPulseWidthVelocity());
-		SmartDashboard.putNumber("encodervelocity3", drivetrain.getTalons()[3].getSensorCollection().getPulseWidthVelocity());
+
+		SmartDashboard.putNumber("encodervelocityf", drivetrain.getTalons()[2].getSelectedSensorVelocity(0)/1.7);
+
+		SmartDashboard.putNumber("encodervelocityf1", drivetrain.getTalons()[1].getSelectedSensorVelocity(0)/1.7);
+
 	}
 
 	/**
