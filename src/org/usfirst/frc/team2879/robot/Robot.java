@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc.team2879.robot.commands.DriveMecanumStick;
 import org.usfirst.frc.team2879.robot.subsystems.CubeIntakeHigh;
 import org.usfirst.frc.team2879.robot.subsystems.CubeIntakeLow;
@@ -40,6 +41,8 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		oi = new OI();
 		chooser.addDefault("Default Auto", new DriveMecanumStick(1));
+		//chooser.addObject("Center Position", new CenterAuto());
+
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
@@ -113,9 +116,10 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 
-		SmartDashboard.putNumber("encodervelocityf", drivetrain.getTalons()[2].getSelectedSensorVelocity(0)/1.7);
-
-		SmartDashboard.putNumber("encodervelocityf1", drivetrain.getTalons()[1].getSelectedSensorVelocity(0)/1.7);
+		SmartDashboard.putNumber("encodervelocityFL", drivetrain.getTalons()[0].getSelectedSensorVelocity(0)/1.7);
+		SmartDashboard.putNumber("encodervelocityRL", drivetrain.getTalons()[1].getSelectedSensorVelocity(0)/1.7);
+		SmartDashboard.putNumber("encodervelocityFR", drivetrain.getTalons()[2].getSelectedSensorVelocity(0)/1.7);
+		SmartDashboard.putNumber("encodervelocityRR", drivetrain.getTalons()[3].getSelectedSensorVelocity(0)/1.7);
 
 	}
 

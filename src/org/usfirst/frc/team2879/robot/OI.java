@@ -1,10 +1,11 @@
 package org.usfirst.frc.team2879.robot;
 
-import org.usfirst.frc.team2879.robot.commands.AutoForward;
+import org.usfirst.frc.team2879.robot.commands.Auto;
 import org.usfirst.frc.team2879.robot.commands.ConstantIntake;
 import org.usfirst.frc.team2879.robot.commands.StickDriveWithPID;
 import org.usfirst.frc.team2879.robot.commands.Strafe;
-import org.usfirst.frc.team2879.robot.commands.lift;
+import org.usfirst.frc.team2879.robot.commands.Lift;
+import org.usfirst.frc.team2879.robot.commands.GoingTheDistance;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -114,11 +115,13 @@ public class OI {
 		new JoystickButton(stick, 3).whileHeld(new ConstantIntake(-.5,true));
 		new JoystickButton(stick, 1).whileHeld(new StickDriveWithPID());
 		
-		// this is the speed of the lift. negative retracts, positive extends.
-		new JoystickButton(stick, 11).whileHeld(new lift(0.50));
-		new JoystickButton(stick, 12).whileHeld(new lift(-0.75));
-		new JoystickButton(stick,7).whenPressed(new AutoForward(0,.4,1));
-		
+		// this is the speed of the Lift. negative retracts, positive extends.
+		new JoystickButton(stick, 11).whileHeld(new Lift(0.50));
+		new JoystickButton(stick, 12).whileHeld(new Lift(-0.75));
+		new JoystickButton(stick, 7).whenPressed(new Auto("c","l","l"));
+		new JoystickButton(stick, 8).whenPressed(new Auto("r","l","h"));
+		new JoystickButton(stick, 9).whenPressed(new Auto("c","h","l"));
+		new JoystickButton(stick, 10).whenPressed(new Auto("r","h","l"));
 		// the arguments are the speed in the different directions. (sidways speed, forward speed, diagonal speed)
 		pov.whileActive(new Strafe(.75,.25,.5));
 		

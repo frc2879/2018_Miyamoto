@@ -7,16 +7,16 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class lift extends Command {
+public class Lift extends Command {
 	double speed;
 
 	/**
 	 * this command makes the redline spin
 	 * 
 	 * @param speed
-	 *            the speed of the lift
+	 *            the speed of the Lift
 	 */
-	public lift(double speed) {
+	public Lift(double speed) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.lift);
@@ -29,7 +29,6 @@ public class lift extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		speed = Robot.oi.GetJoystick().getThrottle();
 		Robot.lift.set(speed);
 	}
 

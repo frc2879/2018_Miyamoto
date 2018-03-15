@@ -21,6 +21,7 @@ public class StickDriveWithPID extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		Robot.drivetrain.setBrakeMode(false);
 		// set the goal angle to current angle
 		rotation.setTarget(Robot.drivetrain.getNavX().getAngle());
 	}

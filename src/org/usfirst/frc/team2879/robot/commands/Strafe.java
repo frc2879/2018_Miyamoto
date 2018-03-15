@@ -32,7 +32,7 @@ public class Strafe extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-
+		
 		rotation.setOutputConstraints(-1, 1);
 		rotation.setTarget(Robot.drivetrain.getNavX().getAngle());
 		// set the acceptable error range (in degrees)

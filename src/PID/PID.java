@@ -158,12 +158,6 @@ public class PID {
 
 		double output = (kP * error) + (kI * errSum) - (kD * velocity) + (kF * target);
 
-		// if ( output > maxOutput ) {
-		// output = maxOutput;
-		// }
-		// if ( output < minOutput ) {
-		// output = minOutput;
-		// }
 		return output;
 
 	}

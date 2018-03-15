@@ -39,6 +39,7 @@ public class RobotMap {
 	
 	//other constants
 	public static double neutralspeed;
+	public static int timeoutMs = 0;
 
-
+	public static int distancePerRevolution=1;
 }
