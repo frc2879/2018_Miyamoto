@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import PID.PID;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,10 +23,7 @@ public class GoingTheDistance extends Command {
 	private double encoderAverage=0;
 	private double maxRate;
 	private int loopStable;
-	private Timer clockboi;
-	
-
-/**
+	/**
  * Reluctantly crouched at the starting line
 Engines pumping and thumping in time
 The green light flashes, the flags go up
@@ -85,31 +81,17 @@ Oh no, oh no, no, no
 		angleKeeper = new PID(.05,0,0);
 		speed = new PID(0.00002,0.00002,.00010);
 		angleKeeper.setTarget(Robot.drivetrain.getNavX().getAngle());
+		//convert in. to magic units
+		distance *= 940;
+		distance += 836;
 		speed.setTarget(distance);
-		speed.setOkError(400);
+		speed.setOkError(3000);
 		speed.setMaxInc(50);
-		clockboi.start();
-		clockboi.reset();
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.drivetrain.setBrakeMode(true);
-		for (WPI_TalonSRX t : talons) {
-			/*t.configClosedloopRamp(1, 10);
-			t.configNominalOutputForward(0, RobotMap.timeoutMs);
-			t.configNominalOutputReverse(0, RobotMap.timeoutMs);
-			t.configPeakOutputForward(1, RobotMap.timeoutMs);
-			t.configPeakOutputReverse(-1, RobotMap.timeoutMs);
-			
-			  set closed loop gains in slot0
-			 
-			t.config_kF(0, 1, RobotMap.timeoutMs);
-			t.config_kP(0, 0, RobotMap.timeoutMs);
-			t.config_kI(0, 0, RobotMap.timeoutMs);
-			t.config_kD(0, 0, RobotMap.timeoutMs);
-			*/
-		}
 		position=0;
 	}
 
@@ -134,8 +116,8 @@ Oh no, oh no, no, no
 			encoderAverage += talons[i].getSelectedSensorVelocity(0)*encCorrection[i]/4;
 		}
 		position += encoderAverage*(RobotMap.distancePerRevolution);
-		SmartDashboard.putNumber("position", position);
-		SmartDashboard.putNumber("encoderAverage", encoderAverage);
+		//SmartDashboard.putNumber("position", position);
+		//SmartDashboard.putNumber("encoderAverage", encoderAverage);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -149,7 +131,7 @@ Oh no, oh no, no, no
 		}else {
 			loopStable=0;
 		}
-		return(done && (clockboi.get()>.5));
+		return((speed.atTarget()));
 
 	}
 

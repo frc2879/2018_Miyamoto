@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * rotates a specific angle delta in degrees. clockwise is positive
  */
-public class RotateToAngle extends Command {
-	private PID rotatePID = new PID(.05, 0, 0);
+public class RotateByAngle extends Command {
+	private PID rotatePID = new PID(.06, .2, .1);
 	private double target;
 	private double delta;
 	private double outputRotation;
 
-	public RotateToAngle(double deltadegrees) {
+	public RotateByAngle(double deltadegrees) {
 		requires(Robot.drivetrain);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -26,13 +26,23 @@ public class RotateToAngle extends Command {
 		target = Robot.drivetrain.getNavX().getAngle() + delta;
 		rotatePID.setTarget(target);
 		// five degree error
-		rotatePID.setOkError(5);
+		rotatePID.setOkError(1);
 		Robot.drivetrain.setBrakeMode(true);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		outputRotation = rotatePID.calculate(Robot.drivetrain.getNavX().getAngle());
+		if (outputRotation>.4) {
+			outputRotation= .4;
+		}
+		if (outputRotation<-.4) {
+			outputRotation= -.4;
+		}
+		/**
+		SmartDashboard.putNumber("angle",target-Robot.drivetrain.getNavX().getAngle());
+		SmartDashboard.putNumber("output", outputRotation);
+		*/
 		Robot.drivetrain.drive(0, 0, outputRotation);
 	}
 

@@ -1,12 +1,15 @@
 package org.usfirst.frc.team2879.robot;
 
+import edu.wpi.cscore.VideoSource;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team2879.robot.commands.DriveMecanumStick;
+import org.usfirst.frc.team2879.robot.commands.GoingTheDistance;
+import org.usfirst.frc.team2879.robot.commands.RevisedAuto;
 import org.usfirst.frc.team2879.robot.subsystems.CubeIntakeHigh;
 import org.usfirst.frc.team2879.robot.subsystems.CubeIntakeLow;
 import org.usfirst.frc.team2879.robot.subsystems.DriveTrain;
@@ -31,20 +34,50 @@ public class Robot extends TimedRobot {
 	= new Liftty();
 
 	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
 
+	SendableChooser<String> StartPosition;
+	SendableChooser<String> LeftScore;
+	SendableChooser<String> RightScore;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
+		StartPosition = new SendableChooser<>();
+		RightScore = new SendableChooser<>();
+		LeftScore = new SendableChooser<>();
+		
+		CameraServer camera = CameraServer.getInstance();
+		VideoSource lowcam = camera.startAutomaticCapture("cam0", 0);
+		VideoSource highcam = camera.startAutomaticCapture("cam1", 1);
+		highcam.setResolution(16,9);
+		highcam.setFPS(25);
+		lowcam.setResolution(16,9);
+		lowcam.setFPS(25);
 		oi = new OI();
-		chooser.addDefault("Default Auto", new DriveMecanumStick(1));
-		//chooser.addObject("Center Position", new CenterAuto());
-
+		StartPosition.addObject("center", "c");
+		StartPosition.addObject("left", "l");
+		StartPosition.addObject("right", "r");
+		StartPosition.addDefault("center", "c");
+		LeftScore.addObject("leftLow", "leftLow");
+		LeftScore.addObject("leftHigh", "leftHigh");
+		LeftScore.addObject("leftMidLow","leftMidLow" );
+		LeftScore.addObject("leftMidHigh","leftMidHigh" );
+		LeftScore.addObject("mobility","mobility" );
+		LeftScore.addDefault("mobility", "mobility");
+		RightScore.addObject("rightMidLow", "rightMidLow");
+		RightScore.addObject("rightHigh", "rightHigh");
+		RightScore.addObject("rightMidHigh", "rightMidHigh");
+		RightScore.addObject("rightLow", "rightLow");
+		RightScore.addObject("mobility", "mobility");
+		RightScore.addDefault("mobility", "mobility");
+		SmartDashboard.putData("Start position", StartPosition);
+		SmartDashboard.putData("left score", LeftScore);
+		SmartDashboard.putData("right score", RightScore);
+		//RightScore.addObject();
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**
@@ -59,6 +92,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
+		
+
 		Scheduler.getInstance().run();
 	}
 
@@ -75,9 +110,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
-
-		/*
+		if (LeftScore.getSelected() == "mobility" || RightScore.getSelected() == "mobility"){
+			autonomousCommand = new GoingTheDistance(180);
+		}else {
+			autonomousCommand = new RevisedAuto(StartPosition.getSelected(), LeftScore.getSelected(), RightScore.getSelected());
+		}
+			/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
@@ -120,7 +158,6 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("encodervelocityRL", drivetrain.getTalons()[1].getSelectedSensorVelocity(0)/1.7);
 		SmartDashboard.putNumber("encodervelocityFR", drivetrain.getTalons()[2].getSelectedSensorVelocity(0)/1.7);
 		SmartDashboard.putNumber("encodervelocityRR", drivetrain.getTalons()[3].getSelectedSensorVelocity(0)/1.7);
-
 	}
 
 	/**
