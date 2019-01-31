@@ -16,10 +16,19 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
-public class Cone extends Subsystem {
+public class Lever extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
+	WPI_TalonSRX redline;
 	
+	public Lever(){
+		redline = new WPI_TalonSRX(RobotMap.levermotor);
+		
+	}
+	
+	public void set(double speed){
+		redline.set(speed);
+	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.

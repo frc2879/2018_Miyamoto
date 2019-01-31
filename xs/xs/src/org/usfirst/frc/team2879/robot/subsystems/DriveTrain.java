@@ -29,6 +29,7 @@ public class DriveTrain extends Subsystem {
 		return talons;
 	}
 	
+	@SuppressWarnings("deprecation")
 	private RobotDrive drivetrain;
 	double encoderedgesperrev = 6;
 	

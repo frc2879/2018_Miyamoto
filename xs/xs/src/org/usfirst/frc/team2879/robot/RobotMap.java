@@ -27,14 +27,16 @@ public class RobotMap {
 	
 	
 	//motor ports
-	public static int frmotor = 0;
-	public static int flmotor = 0;
-	public static int brmotor = 0;
-	public static int blmotor = 0;
+	public static int frmotor = 2;
+	public static int flmotor = 4;
+	public static int brmotor = 8;
+	public static int blmotor = 3;
 	
 	public static int liftmotor = 0;
 	
-	public static int conepiston;
+	public static int levermotor = 0;
+	
+	public static int conepiston = 0;
 	
 	//input ports
 	public static int joystickport = 0;
