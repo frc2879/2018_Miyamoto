@@ -8,11 +8,9 @@
 package org.usfirst.frc.team2879.robot;
 
 import org.usfirst.frc.team2879.robot.commands.driveGo;
-import org.usfirst.frc.team2879.robot.commands.leverFlip;
 import org.usfirst.frc.team2879.robot.commands.liftMove;
 import org.usfirst.frc.team2879.robot.subsystems.Cone;
 import org.usfirst.frc.team2879.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team2879.robot.subsystems.Lever;
 import org.usfirst.frc.team2879.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -26,7 +24,6 @@ public class Robot extends TimedRobot {
 	public static final DriveTrain drivetrain = new DriveTrain();
 	public static final Lift lift = new Lift();
 	public static final Cone cone = new Cone();
-	public static final Lever lever = new Lever();
 	
 	public static OI oi;
 
@@ -40,7 +37,6 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 		chooser.addDefault("DriveGo", new driveGo(0));
 		chooser.addDefault("LiftMove", new liftMove(0));
-		chooser.addDefault("LeverFlip", new leverFlip(0));
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		
 		
